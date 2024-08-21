@@ -1,14 +1,12 @@
-import './App.css'
-import AppProvider from './providers/AppProvider'
-import AppRoute from './routes/AppRoute'
+import AppProvider from "./providers/AppProvider";
+import AppRoute from "./routes/AppRoute";
 
 function App() {
-
   return (
     <AppProvider>
       <AppRoute />
     </AppProvider>
-  )
+  );
 }
 
-export default App
+export default App;
