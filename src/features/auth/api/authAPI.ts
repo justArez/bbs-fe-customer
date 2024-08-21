@@ -7,16 +7,17 @@ import { useMutation } from '@tanstack/react-query';
 
 const login = async (credentials: LoginCredentials): Promise<ILogin> => {
     try {
-        const resLogin: ILogin = await httpRequest.post('/auth/login', credentials);
-        Cookies.set('badminton-rft', resLogin.token.refreshToken, {
-            expires: new Date(resLogin.token.refreshTokenExp * 1000),
-        });
-        Cookies.set('badminton-at', resLogin.token.accessToken, {
-            expires: new Date(resLogin.token.accessTokenExp * 1000),
-        });
-        const resSessionUser = await getSessionUser();
+        const resLogin: string = await httpRequest.post('auth/sign-in', credentials);
+        localStorage.setItem('token', resLogin);
+        // Cookies.set('badminton-rft', resLogin.token.refreshToken, {
+        //     expires: new Date(resLogin.token.refreshTokenExp * 1000),
+        // });
+        // Cookies.set('badminton-at', resLogin.token.accessToken, {
+        //     expires: new Date(resLogin.token.accessTokenExp * 1000),
+        // });
+        // const resSessionUser = await getSessionUser();
 
-        return { ...resLogin, session: resSessionUser.session, user: resSessionUser.user };
+        return { token: resLogin } as any;
     } catch (e: any) {
         throw new Error(e.error);
     }
