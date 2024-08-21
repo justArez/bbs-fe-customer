@@ -1,7 +1,7 @@
 import * as httpRequest from '@/libs/axios';
 import * as httpAuth from '@/libs/axios-auth';
 import Cookies from "js-cookie";
-import { ILogin, ILogout, IRefreshToken, ISession, ISessionUser, LoginCredentials } from "../types";
+import { ILogin, IRefreshToken, ISession, ISessionUser, LoginCredentials } from "../types";
 import { IUser, getUser } from '@/features/users';
 import { useMutation } from '@tanstack/react-query';
 
@@ -22,18 +22,18 @@ const login = async (credentials: LoginCredentials): Promise<ILogin> => {
     }
 };
 
-const logout = async (): Promise<ILogout> => {
-    try {
-        const refreshToken = Cookies.get('badminton-rft');
-        const res: ILogout = await httpRequest.post('/auth/logout', { refreshToken });
-        Cookies.remove('badminton-rft');
-        Cookies.remove('badminton-at');
-        sessionStorage.removeItem('badminton-session');
-        return res;
-    } catch (e: any) {
-        throw new Error(e.error);
-    }
-};
+// const logout = async (): Promise<ILogout> => {
+//     try {
+//         const refreshToken = Cookies.get('badminton-rft');
+//         const res: ILogout = await httpRequest.post('/auth/logout', { refreshToken });
+//         Cookies.remove('badminton-rft');
+//         Cookies.remove('badminton-at');
+//         sessionStorage.removeItem('badminton-session');
+//         return res;
+//     } catch (e: any) {
+//         throw new Error(e.error);
+//     }
+// };
 
 export const refreshToken = async (): Promise<IRefreshToken> => {
     try {
