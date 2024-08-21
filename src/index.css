@@ -1,4 +1,9 @@
-@tailwind base;
+@import "@mantine/core/styles.css";
+@import "@mantine/dropzone/styles.css";
+@layer tailwind {
+  @tailwind base;
+}
+
 @tailwind components;
 @tailwind utilities;
 
