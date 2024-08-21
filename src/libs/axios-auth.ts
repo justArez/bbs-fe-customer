@@ -2,7 +2,6 @@ import config from '@/config';
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import Cookies from 'js-cookie';
 import { IRefreshToken } from '@/features/auth/types';
-import { refreshToken } from '@/features/auth';
 import { ErrorAuth } from './error';
 import { useAuthStore } from '@/store/authStore';
 
@@ -15,50 +14,10 @@ export const sleep = (ms = 100000): Promise<void> => {
 };
 
 httpRequest.interceptors.request.use(async (value) => {
-    const at = Cookies.get('tattus-at');
-    const rf = Cookies.get('tattus-rft');
-    if (!at || (at && at.length === 0)) {
-        if (rf && rf.length > 0) {
-            const res: IRefreshToken = await refreshToken();
-            res && Cookies.set('tattus-at', res.accessToken, { expires: new Date(res.accessTokenExp * 1000) });
-        } else {
-            Cookies.remove('tattus-rft');
-            Cookies.remove('tattus-at');
-            throw new Error(ErrorAuth.AT_RT_INVALID);
-        }
-    }
-    value.headers['Authorization'] = `Bearer ${Cookies.get('tattus-at')}`;
+    value.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
     return value;
 });
 
-httpRequest.interceptors.response.use(undefined, async (error) => {
-    if (error.response?.status === 403) {
-        useAuthStore.getState().setAccountType(null);
-        return Promise.reject(error);
-    }
-    if (error instanceof Error && !(error instanceof AxiosError)) {
-        return Promise.reject({ error: error.message });
-    }
-
-    if (error instanceof AxiosError && error.response) {
-        if (error.request.responseURL.includes('/users/password')) {
-            return Promise.reject(error.response.data);
-        }
-        try {
-            if (error.response.status === 401) {
-                const res: IRefreshToken = await refreshToken();
-                res && Cookies.set('tattus-at', res.accessToken, { expires: new Date(res.accessTokenExp * 1000) });
-                return Promise.reject({ error: ErrorAuth.AT_INVALID });
-            }
-        } catch (e) {
-            useAuthStore.getState().reset();
-            return Promise.reject({ error: (e as Error).message });
-        }
-        return Promise.reject(error.response.data);
-    } else {
-        throw new Error('Network Error');
-    }
-});
 
 export const get = async (path: string, options?: AxiosRequestConfig<object>) => {
     const response = await httpRequest.get(path, options);

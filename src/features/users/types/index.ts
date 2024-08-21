@@ -1,4 +1,6 @@
+import { ILogout } from '@/features/auth/types';
 
+export interface IUpdateUser extends ILogout { }
 
 export interface IUser {
     id: string;

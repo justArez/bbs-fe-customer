@@ -1,6 +1,5 @@
 import { IUser } from '@/features/users';
 import { create } from 'zustand';
-import Cookies from 'js-cookie';
 
 interface IAuth {
     role?: {
@@ -35,9 +34,6 @@ export const useAuthStore = create<AuthState>((set) => ({
     setIsAuth: (isAuth) => set({ isAuth }),
     reset: () => {
         set({ accountType: null, isAuth: false, isLogout: false });
-        Cookies.remove('tattus-at');
-        Cookies.remove('tattus-rft');
-        sessionStorage.removeItem('tattus-session');
-        sessionStorage.removeItem('tattus-role');
+        localStorage.removeItem("token");
     },
 }));
