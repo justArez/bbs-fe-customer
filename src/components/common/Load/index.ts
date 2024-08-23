@@ -1,3 +1,3 @@
-import Load from './Load';
+import Load from "./Load";
 
 export default Load;

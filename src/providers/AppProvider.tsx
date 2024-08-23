@@ -8,29 +8,21 @@ import { Toaster } from "react-hot-toast";
 import HistoryProvider from "./HistoryProvider";
 import theme from "@/theme";
 
-
-
-export default function AppProvider({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
-    return (
-        <ErrorBoundary fallback={<Error />}>
-            <HistoryProvider>
-                <Suspense fallback={<div className="h-screen w-screen"></div>}>
-                    <MantineProvider theme={theme}>
-                        <QueryClientProvider client={queryClient}>
-                            {children}
-                        </QueryClientProvider>
-                    </MantineProvider>
-                </Suspense>
-            </HistoryProvider>
-            <Toaster
-                toastOptions={{
-                    className: "font-semibold text-sm",
-                }}
-            />
-        </ErrorBoundary>
-    );
+export default function AppProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <ErrorBoundary fallback={<Error />}>
+      <HistoryProvider>
+        <Suspense fallback={<div className="h-screen w-screen"></div>}>
+          <MantineProvider theme={theme}>
+            <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+          </MantineProvider>
+        </Suspense>
+      </HistoryProvider>
+      <Toaster
+        toastOptions={{
+          className: "font-semibold text-sm",
+        }}
+      />
+    </ErrorBoundary>
+  );
 }

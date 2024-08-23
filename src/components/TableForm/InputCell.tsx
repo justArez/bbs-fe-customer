@@ -46,7 +46,7 @@ export default function InputCell<T, T2 extends object>({
     const status = (table.options.meta as any)?.updateData(
       index,
       id,
-      valueI !== undefined ? valueI : value
+      valueI !== undefined ? valueI : value,
     );
     if (!status && select) {
       setValue("");
@@ -74,8 +74,7 @@ export default function InputCell<T, T2 extends object>({
         setClick(true);
       }}
     >
-      {(click && value.toString().length > 0) ||
-      value.toString().length === 0 ? (
+      {(click && value.toString().length > 0) || value.toString().length === 0 ? (
         <>
           {!select ? (
             <Input
@@ -133,7 +132,7 @@ export default function InputCell<T, T2 extends object>({
         <Text
           className={twMerge(
             "text-sm font-semibold min-h-[36px] flex items-center",
-            className ? className : ""
+            className ? className : "",
           )}
         >
           {formatValue ? formatValue(value) : value}

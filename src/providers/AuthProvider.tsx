@@ -2,11 +2,7 @@ import { useGetUserMutation } from "@/features/users";
 import { useAuthStore } from "@/store/authStore";
 import { useEffect } from "react";
 
-export default function AuthProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const { setAccountType, reset } = useAuthStore();
 
   const getUserProfile = useGetUserMutation({

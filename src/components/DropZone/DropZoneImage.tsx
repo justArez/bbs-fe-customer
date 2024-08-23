@@ -45,15 +45,10 @@ export default function DropZoneImage({
             handleDrop && handleDrop(files);
             setSrcDefault(URL.createObjectURL(files[0]));
             setFiles(files);
-            toast.success(
-              "Tải ảnh thành công, nhấn thay đổi thông tin để cập nhật"
-            );
+            toast.success("Tải ảnh thành công, nhấn thay đổi thông tin để cập nhật");
           }}
           onReject={() => {
-            toast.error(
-              errorString ||
-                "Kích thước ảnh quá 1Mb hoặc không đúng định dạng ảnh"
-            );
+            toast.error(errorString || "Kích thước ảnh quá 1Mb hoặc không đúng định dạng ảnh");
           }}
           maxSize={maxSize ? maxSize * 1024 : 1024 * 1024}
           accept={["image/jpeg", "image/png", "image/gif", "image/webp"]}
@@ -64,18 +59,13 @@ export default function DropZoneImage({
         >
           <Box className="flex flex-col justify-center items-center w-full h-full gap-y-4">
             <TbPhoto className="text-[#C4C4C4] w-1/2 h-1/2 mx-auto" />
-            <Text className="text-[#C4C4C4] font-semibold">
-              Kéo thả ảnh vào đây
-            </Text>
+            <Text className="text-[#C4C4C4] font-semibold">Kéo thả ảnh vào đây</Text>
           </Box>
         </Dropzone>
       ) : (
         <div className="relative">
           <ImageSlider
-            className={twMerge(
-              "rounded-xl",
-              classNames?.image?.toString() || ""
-            )}
+            className={twMerge("rounded-xl", classNames?.image?.toString() || "")}
             src={srcDefault}
           />
           <Group className="gap-x-4 absolute top-2 right-2">

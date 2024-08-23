@@ -1,17 +1,5 @@
-import {
-  Group,
-  Pagination,
-  ScrollArea,
-  Select,
-  Table,
-  Text,
-  rem,
-} from "@mantine/core";
-import {
-  PaginationState,
-  Table as TableProps,
-  flexRender,
-} from "@tanstack/react-table";
+import { Group, Pagination, ScrollArea, Select, Table, Text, rem } from "@mantine/core";
+import { PaginationState, Table as TableProps, flexRender } from "@tanstack/react-table";
 import { Fragment } from "react";
 import THead from "../THead";
 import { twMerge } from "tailwind-merge";
@@ -39,14 +27,10 @@ export default function TableForm<T extends object>({
         classNames={{ scrollbar: "!sticky" }}
         className={twMerge(
           "!max-h-[calc(100vh-320px)] !min-h-[calc(100vh-320px)] overflow-y-auto ",
-          className
+          className,
         )}
       >
-        <Table
-          highlightOnHover
-          verticalSpacing={"sm"}
-          className="min-w-[1080px]"
-        >
+        <Table highlightOnHover verticalSpacing={"sm"} className="min-w-[1080px]">
           <Table.Thead>
             {table.getHeaderGroups().map((headerGroup) => {
               return (
@@ -58,10 +42,7 @@ export default function TableForm<T extends object>({
                           <THead header={header} />
                         ) : (
                           <Table.Th>
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
+                            {flexRender(header.column.columnDef.header, header.getContext())}
                           </Table.Th>
                         )}
                       </Fragment>
@@ -83,10 +64,7 @@ export default function TableForm<T extends object>({
                   {row.getVisibleCells().map((cell) => {
                     return (
                       <Table.Td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </Table.Td>
                     );
                   })}

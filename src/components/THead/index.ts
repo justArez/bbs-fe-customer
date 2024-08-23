@@ -1,3 +1,3 @@
-import THead from './THead';
+import THead from "./THead";
 
 export default THead;

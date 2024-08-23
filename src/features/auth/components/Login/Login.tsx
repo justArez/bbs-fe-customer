@@ -62,12 +62,7 @@ export default function Login() {
                     Forgot password?
                   </Anchor>
                 </Group>
-                <Button
-                  type="submit"
-                  fullWidth
-                  mt="xl"
-                  loading={loginMutation.isPending}
-                >
+                <Button type="submit" fullWidth mt="xl" loading={loginMutation.isPending}>
                   Đăng nhập
                 </Button>
               </Paper>

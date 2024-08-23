@@ -1,3 +1,3 @@
-import ComboboxInfo from './ComboboxInfo';
+import ComboboxInfo from "./ComboboxInfo";
 
 export default ComboboxInfo;

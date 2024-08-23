@@ -18,7 +18,7 @@ export const useGetUserMutation = (
     onSuccess?: (data: IUser, variables: unknown, context: unknown) => void;
     onMutate?: () => Promise<IUser>;
   },
-  retry?: number
+  retry?: number,
 ) => {
   return useMutation({
     mutationKey: ["userProfile"],

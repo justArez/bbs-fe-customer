@@ -1,4 +1,4 @@
-import Image, { ImageSlider } from './Image';
+import Image, { ImageSlider } from "./Image";
 
 export default Image;
 export { ImageSlider };

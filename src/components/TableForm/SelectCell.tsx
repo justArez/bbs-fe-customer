@@ -10,10 +10,7 @@ export default function SelectCell<T extends object>({
   disabled,
 }: {
   onChange?: (e: string | null, data: T) => void;
-  onClick?: (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    c: CellContext<T, unknown>
-  ) => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, c: CellContext<T, unknown>) => void;
   cellContext: CellContext<T, unknown>;
   data: { value: string; label: string }[];
   disabled?: boolean;
@@ -27,10 +24,7 @@ export default function SelectCell<T extends object>({
       defaultValue={cellContext.cell.getValue()!.toString()}
       data={data}
       rightSectionProps={{ className: "hidden" }}
-      className={twMerge(
-        "text-sm font-semibold !max-w-[200px] ",
-        className && className
-      )}
+      className={twMerge("text-sm font-semibold !max-w-[200px] ", className && className)}
       allowDeselect={false}
       classNames={{ input: "!px-4 ", dropdown: "text-sm font-semibold" }}
       withCheckIcon={false}

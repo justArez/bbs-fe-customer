@@ -1,7 +1,7 @@
-import API from './API';
+import API from "./API";
 
 const config = {
-    API,
+  API,
 };
 
 export default config;

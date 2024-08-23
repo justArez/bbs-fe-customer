@@ -6,10 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 
 const login = async (credentials: LoginCredentials): Promise<ILogin> => {
   try {
-    const resLogin: { token: string } = await httpRequest.post(
-      "/auth/sign-in",
-      credentials
-    );
+    const resLogin: { token: string } = await httpRequest.post("/auth/sign-in", credentials);
     localStorage.setItem("token", resLogin.token);
     const resUser: IUser = await getUser();
     return { token: resLogin.token, user: resUser };
@@ -31,19 +28,11 @@ const getSessionUser = async (): Promise<ISessionUser> => {
 
 export const useLoginMutation = (
   handleFn: {
-    onError?: (
-      error: unknown,
-      variables: LoginCredentials,
-      context: unknown
-    ) => void;
-    onSuccess?: (
-      data: ILogin,
-      variables: LoginCredentials,
-      context: unknown
-    ) => void;
+    onError?: (error: unknown, variables: LoginCredentials, context: unknown) => void;
+    onSuccess?: (data: ILogin, variables: LoginCredentials, context: unknown) => void;
     onMutate?: (variables: LoginCredentials) => Promise<ILogin>;
   },
-  retry?: number
+  retry?: number,
 ) => {
   return useMutation({
     mutationFn: (credentials: LoginCredentials) => login(credentials),
@@ -57,14 +46,10 @@ export const useLoginMutation = (
 export const useGetSessionUserMutation = (
   handleFn: {
     onError?: (error: unknown, variables: unknown, context: unknown) => void;
-    onSuccess?: (
-      data: ISessionUser,
-      variables: unknown,
-      context: unknown
-    ) => void;
+    onSuccess?: (data: ISessionUser, variables: unknown, context: unknown) => void;
     onMutate?: (variables: unknown) => Promise<ISessionUser>;
   },
-  retry?: number
+  retry?: number,
 ) => {
   return useMutation({
     mutationFn: getSessionUser,

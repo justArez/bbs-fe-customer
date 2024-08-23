@@ -8,11 +8,7 @@ export interface BrowserRouterProps {
   children?: ReactNode;
   history: History;
 }
-export function HistoryRouter({
-  basename,
-  children,
-  history,
-}: BrowserRouterProps) {
+export function HistoryRouter({ basename, children, history }: BrowserRouterProps) {
   const [state, setState] = useState({
     action: history.action,
     location: history.location,
