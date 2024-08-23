@@ -11,6 +11,7 @@ const queryConfig: DefaultOptions = {
       else return false;
     },
     retryDelay: 0,
+    placeholderData: (prevData: any) => prevData
   },
 };
 

@@ -1,3 +1,3 @@
+import NotFound from "./NotFound";
 import Error from "./Error";
-
-export default Error;
+export { Error, NotFound };

@@ -1,23 +1,30 @@
-import Error from "@/components/Error";
+import { NotFound } from "@/components/Error";
 import ScrollToTop from "@/components/ScrollToTop";
-import Login from "@/features/auth/components";
-import Dashboard from "@/features/owner/components/Dashboard";
+import Dashboard from "@/features/dashboard/components/Dashboard";
+import { HomePage } from "@/features/users";
+import WithAuthencation from "@/hocs/withAuthencation";
+import DashboardLayout from "@/layouts/DashboardLayout";
 import { DefaultLayout } from "@/layouts/DefaultLayout";
-import AuthProvider from "@/providers/AuthProvider";
-import { Navigate, Route, Routes } from "react-router-dom";
+import ManageLayout from "@/layouts/ManageLayout";
+import { Route, Routes } from "react-router-dom";
 
 export default function AppRoute() {
   return (
-    <AuthProvider>
+    <>
       <ScrollToTop />
       <Routes>
-        <Route path="/" index element={<Navigate to={"/login"} />}></Route>
         <Route path="/" element={<DefaultLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route index element={<HomePage />} />
+          <Route element={<WithAuthencation />}>
+            <Route path="manage" element={<ManageLayout />}>
+            </Route>
+            <Route path="dashboard" element={<DashboardLayout />} >
+              <Route index element={<Dashboard />} />
+            </Route>
+          </Route>
         </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="*" element={<Error />}></Route>
+        <Route path="*" element={<NotFound />}></Route>
       </Routes>
-    </AuthProvider>
+    </>
   );
 }

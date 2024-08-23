@@ -3,10 +3,11 @@ import { MantineProvider } from "@mantine/core";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 import { Suspense } from "react";
-import Error from "@/components/Error";
+import { Error } from "@/components/Error";
 import { Toaster } from "react-hot-toast";
 import HistoryProvider from "./HistoryProvider";
 import theme from "@/theme";
+import AuthProvider from "./AuthProvider";
 
 export default function AppProvider({ children }: { children: React.ReactNode }) {
   return (
@@ -14,7 +15,11 @@ export default function AppProvider({ children }: { children: React.ReactNode })
       <HistoryProvider>
         <Suspense fallback={<div className="h-screen w-screen"></div>}>
           <MantineProvider theme={theme}>
-            <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+            <QueryClientProvider client={queryClient}>
+              <AuthProvider>
+                {children}
+              </AuthProvider>
+            </QueryClientProvider>
           </MantineProvider>
         </Suspense>
       </HistoryProvider>
