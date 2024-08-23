@@ -6,12 +6,13 @@ import { useMutation } from "@tanstack/react-query";
 
 const login = async (credentials: LoginCredentials): Promise<ILogin> => {
   try {
-    const resLogin: string = await httpRequest.post(
+    const resLogin: { token: string } = await httpRequest.post(
       "/auth/sign-in",
       credentials
     );
-    localStorage.setItem("token", resLogin);
-    return { token: resLogin } as any;
+    localStorage.setItem("token", resLogin.token);
+    const resUser: IUser = await getUser();
+    return { token: resLogin.token, user: resUser };
   } catch (e: any) {
     throw new Error(e);
   }

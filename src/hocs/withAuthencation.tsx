@@ -1,44 +1,23 @@
-// import { useAuthStore } from "@/store/authStore";
-// import Cookies from "js-cookie";
-// import { useEffect } from "react";
-// import { useLocation, useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/store/authStore";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const WithAuthencation = ({ children }: { children: React.ReactNode }) => {
-  //   const { reset, accountType, isLogout } = useAuthStore();
-  //   const navigate = useNavigate();
-  //   const location = useLocation();
-  //   const at = Cookies.get("badmintion-at");
-  //   const rf = Cookies.get("badmintion-rft");
-  //   const roleId = accountType?.role?.id;
+  const { reset, accountType } = useAuthStore();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const token = localStorage.getItem("token");
+  const roleId = accountType?.role?.id;
 
-  // useEffect(() => {
-  //     if (!((rf && rf.length > 0) || (at && at.length > 0))) {
-  //         reset();
-  //         if (!(roleId && roleId > 5)) {
-  //             if (!isLogout) {
-  //                 navigate('/login', {
-  //                     replace: true,
-  //                     state: { message: 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại' },
-  //                 });
-  //             } else {
-  //                 navigate('/login', { replace: true });
-  //             }
-  //         }
-  //     } else if (roleId && roleId < 6 && roleId > 2 && location.pathname.includes('system')) {
-  //         navigate('/dashboard', { replace: true });
-  //     }
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [location.pathname, at, rf, roleId]);
+  useEffect(() => {
+    if (!token || token.length === 0) {
+      reset();
+      navigate("/login", { replace: true });
+    } else navigate("/dashboard", { replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, token, roleId]);
 
-  return (
-    <>
-      {/* {((rf && rf.length > 0) || (at && at.length > 0)) &&
-        roleId &&
-        roleId < 6 &&
-        children} */}
-      {children}
-    </>
-  );
+  return <>{token && token.length > 0 && children}</>;
 };
 
 export default WithAuthencation;

@@ -4,12 +4,12 @@ import auths from "./fixtures/auths";
 
 function checkValidToken(token) {
   if (token) {
-    const [timeOut, id] = token.split("")[1].split("-");
-    if (timeOut && id && Date.now() > parseInt(timeOut)) {
+    const [timeOut, id] = token.split(" ")[1].split("-");
+    if (timeOut && id && Date.now() <= parseInt(timeOut)) {
       return id;
     }
   }
-  return new Response(401, {}, { message: "Unauthorized" });
+  throw Error("Unauthorized");
 }
 
 export function makeServer({ environment = "test" } = {}) {
@@ -42,7 +42,7 @@ export function makeServer({ environment = "test" } = {}) {
         });
         if (auth) {
           return {
-            token: `${Date.now() + 5 * 60 * 1000}-${auth.id}`,
+            token: `${Date.now() + 1 * 60 * 1000}-${auth.id}`,
           };
         }
         return new Response(401, {}, "Unauthorized");
@@ -51,14 +51,12 @@ export function makeServer({ environment = "test" } = {}) {
       // GET /api/user/:id
       this.get("/users/profile", (schema, request) => {
         const token = request.requestHeaders.Authorization;
-        const userId = checkValidToken(token);
-        return schema.users.find(userId);
-      });
-
-      this.get("/users", (schema) => {
-        const token = request.requestHeaders.Authorization;
-        checkValidToken(token);
-        return schema.users.all();
+        try {
+          const userId = checkValidToken(token);
+          return schema.users.find(userId).attrs;
+        } catch (error) {
+          return new Response(401, {}, { message: "Unauthorized" });
+        }
       });
     },
   });

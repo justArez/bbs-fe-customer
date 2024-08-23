@@ -15,20 +15,17 @@ import { useLoginMutation, LoginCredentials } from "@/features/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAuthStore } from "@/store/authStore";
 import { Navigate, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 export default function Login() {
   const { accountType, setAccountType } = useAuthStore();
   const navigate = useNavigate();
   const loginMutation = useLoginMutation({
     onSuccess: (data) => {
-      setAccountType({
-        user: {
-          id: "1",
-        },
-      });
+      setAccountType({ user: data.user });
       navigate("/dashboard");
     },
-    onError: (e) => {
-      console.log(e);
+    onError: () => {
+      toast.error("Đăng nhập thất bại, vui lòng thử lại");
     },
   });
   const { handleSubmit, register } = useForm<LoginCredentials>();
