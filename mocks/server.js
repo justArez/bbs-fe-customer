@@ -58,6 +58,8 @@ export function makeServer({ environment = "test" } = {}) {
           return new Response(401, {}, { message: "Unauthorized" });
         }
       });
+
+      this.passthrough();
     },
   });
 
