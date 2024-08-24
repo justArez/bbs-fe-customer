@@ -1,6 +1,10 @@
 import { createServer, Model, Response } from "miragejs";
 import users from "./fixtures/users";
 import auths from "./fixtures/auths";
+import config from "@/config";
+
+const API_URL = import.meta.env.VITE_API_URL;
+const API_PLACE_URL = import.meta.env.VITE_API_PLACE_URL;
 
 function checkValidToken(token) {
   if (token) {
@@ -31,7 +35,10 @@ export function makeServer({ environment = "test" } = {}) {
     },
 
     routes() {
-      this.namespace = "api";
+      this.namespace = "/api";
+
+      this.passthrough(`${API_URL}/**`);
+      this.passthrough(`${API_PLACE_URL}/**`);
 
       // POST /api/auth/signin
       this.post("/auth/sign-in", (schema, request) => {
@@ -59,7 +66,23 @@ export function makeServer({ environment = "test" } = {}) {
         }
       });
 
-      this.passthrough();
+      // GET /api/map/autocomplete/json
+      this.get("/autocomplete/json", async (schema, request) => {
+        // get all query params from request
+        const params = request.queryParams;
+        const res = await fetch(
+          `${API_PLACE_URL}/autocomplete/json?${new URLSearchParams(params)}`,
+        );
+        return res.json();
+      });
+
+      // GET /api/map/details/json
+      this.get("/details/json", async (schema, request) => {
+        // get all query params from request
+        const params = request.queryParams;
+        const res = await fetch(`${API_PLACE_URL}/details/json?${new URLSearchParams(params)}`);
+        return res.json();
+      });
     },
   });
 

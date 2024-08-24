@@ -15,10 +15,10 @@ export default function AppRoute() {
       <Routes>
         <Route path="/" element={<DefaultLayout />}>
           <Route index element={<HomePage />} />
+          <Route path="map" element={<HomePage />} />
           <Route element={<WithAuthencation />}>
-            <Route path="manage" element={<ManageLayout />}>
-            </Route>
-            <Route path="dashboard" element={<DashboardLayout />} >
+            <Route path="manage" element={<ManageLayout />}></Route>
+            <Route path="dashboard" element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />
             </Route>
           </Route>
