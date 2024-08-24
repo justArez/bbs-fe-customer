@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import HistoryProvider from "./HistoryProvider";
 import theme from "@/theme";
 import AuthProvider from "./AuthProvider";
+import { ModalsProvider } from "@mantine/modals";
 
 export default function AppProvider({ children }: { children: React.ReactNode }) {
   return (
@@ -16,9 +17,11 @@ export default function AppProvider({ children }: { children: React.ReactNode })
         <Suspense fallback={<div className="h-screen w-screen"></div>}>
           <MantineProvider theme={theme}>
             <QueryClientProvider client={queryClient}>
-              <AuthProvider>
-                {children}
-              </AuthProvider>
+              <ModalsProvider>
+                <AuthProvider>
+                  {children}
+                </AuthProvider>
+              </ModalsProvider>
             </QueryClientProvider>
           </MantineProvider>
         </Suspense>

@@ -1,8 +1,8 @@
 export default [
   {
     id: "1",
-    username: "john_doe",
-    password: "password123",
+    username: "manh",
+    password: "12345",
   },
   {
     id: "2",

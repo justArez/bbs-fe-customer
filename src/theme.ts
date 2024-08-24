@@ -1,20 +1,21 @@
 import { MantineColorsTuple, createTheme } from "@mantine/core";
 
-const lightBlueColor: MantineColorsTuple = [
-  "#e0fbff",
-  "#cbf2ff",
-  "#9ae2ff",
-  "#64d2ff",
-  "#3cc5fe",
-  "#23bcfe",
-  "#09b8ff",
-  "#00a1e4",
-  "#0090cd",
-  "#007cb5",
+const brightGreen: MantineColorsTuple = [
+  "#effee7",
+  "#e0f8d4",
+  "#c2efab",
+  "#a2e67e",
+  "#87de57",
+  "#75d940",
+  "#6bd731",
+  "#59be23",
+  "#4da91b",
+  "#3d920c"
 ];
 
 const theme = createTheme({
-  colors: { lightBlueColor },
+  primaryColor: 'green',
+  colors: { brightGreen },
   primaryShade: 6,
 });
 
