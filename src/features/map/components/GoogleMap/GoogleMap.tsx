@@ -140,7 +140,7 @@ export default function GoogleMap({ visible }: { visible: boolean }) {
                 zoomControl: false,
               }}
             >
-              {listStudio && <StudioListPin studios={listStudio} />}
+              {listCenter && <StudioListPin studios={listStudio} />}
             </GoogleMapReact>
           </>
         )}
