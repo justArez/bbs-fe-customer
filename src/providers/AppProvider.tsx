@@ -9,6 +9,7 @@ import HistoryProvider from "./HistoryProvider";
 import theme from "@/theme";
 import AuthProvider from "./AuthProvider";
 import { ModalsProvider } from "@mantine/modals";
+import { domAnimation, LazyMotion } from "framer-motion";
 
 export default function AppProvider({ children }: { children: React.ReactNode }) {
   return (
@@ -16,13 +17,15 @@ export default function AppProvider({ children }: { children: React.ReactNode })
       <HistoryProvider>
         <Suspense fallback={<div className="h-screen w-screen"></div>}>
           <MantineProvider theme={theme}>
-            <QueryClientProvider client={queryClient}>
-              <ModalsProvider>
-                <AuthProvider>
-                  {children}
-                </AuthProvider>
-              </ModalsProvider>
-            </QueryClientProvider>
+            <Suspense fallback={<div className="h-screen w-screen bg-white"></div>}>
+              <LazyMotion features={domAnimation}>
+                <QueryClientProvider client={queryClient}>
+                  <ModalsProvider>
+                    <AuthProvider>{children}</AuthProvider>
+                  </ModalsProvider>
+                </QueryClientProvider>
+              </LazyMotion>
+            </Suspense>
           </MantineProvider>
         </Suspense>
       </HistoryProvider>

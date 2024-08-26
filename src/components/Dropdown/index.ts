@@ -1,3 +1,5 @@
-import DropwdownInput from "./DropwdownInput";
+import DropdownImage from './DropdownImage';
+import Dropdown from './Dropdown';
+import DropwdownInput from './DropwdownInput';
 
-export { DropwdownInput };
+export { DropdownImage, Dropdown, DropwdownInput };

@@ -18,7 +18,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 right-0 border-b-2 bg-[#2F9380]">
+    <header className="sticky top-0 right-0 bg-[#36988b] z-50">
       <div className="flex justify-between items-center px-4">
         <div className="flex items-center gap-x-4">
           <Link to="/">
@@ -27,15 +27,15 @@ export default function Header() {
         </div>
         <div className="flex gap-x-4">
           {!accountType ? (
-            <Button variant="white" leftSection={<LuUsers />} onClick={() => onClickLogin()}>
+            <Button leftSection={<LuUsers />} onClick={() => onClickLogin()}>
               Đăng nhập
             </Button>
           ) : (
-            <Button color="red.6" onClick={() => reset()}>
+            <Button variant="light" color="red.6" onClick={() => reset()}>
               Đăng xuất
             </Button>
           )}
-          <ActionIcon size="lg">
+          <ActionIcon variant="light" size="lg">
             <IoMenu size={24} />
           </ActionIcon>
         </div>
