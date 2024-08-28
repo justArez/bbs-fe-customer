@@ -1,6 +1,6 @@
 import config from "@/config";
+import { useAuthStore } from "@/store/authStore";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
-import Cookies from "js-cookie";
 
 const httpRequest = axios.create({
   baseURL: config.API.API_URL,
@@ -13,9 +13,7 @@ export const sleep = (ms = 500): Promise<void> => {
 httpRequest.interceptors.response.use(undefined, async (error: AxiosError) => {
   if (error.response) {
     if (error.response.status === 401) {
-      Cookies.remove("badminton-rft");
-      Cookies.remove("badminton-at");
-      sessionStorage.removeItem("badminton-session");
+      useAuthStore.getState().reset();
     }
     return Promise.reject(error.response.data);
   } else {

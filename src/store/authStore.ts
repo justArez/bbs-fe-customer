@@ -1,4 +1,5 @@
 import { IUser } from "@/features/users";
+import { modals } from "@mantine/modals";
 import { create } from "zustand";
 
 interface AuthState {
@@ -25,5 +26,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   reset: () => {
     set({ accountType: null, isAuth: false, isLogout: false });
     localStorage.removeItem("user");
+    modals.closeAll();
   },
 }));

@@ -11,6 +11,7 @@ export interface IUser {
   role: string;
   token: string;
   active: boolean;
+  id: number;
 }
 
 export interface UserCredentials {
@@ -24,4 +25,12 @@ export interface UserCredentials {
 export interface UserPasswordCredentials {
   oldPassword: string;
   newPassword: string;
+}
+
+export interface IBookingHistory {
+  bookingAmount: number;
+  bookingStartDate: number;
+  bookingStatus: string;
+  courtCenterName: string;
+  courtName: string;
 }

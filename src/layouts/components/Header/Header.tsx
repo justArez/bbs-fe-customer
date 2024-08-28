@@ -51,7 +51,7 @@ export default function Header() {
               <Menu.Item>
                 <div className="flex items-center gap-x-3">
                   <FaRegUser size={20} />
-                  <Link to="/manage/booking">Quản lý booking</Link>
+                  <Link to="/history">Quản lý booking</Link>
                 </div>
               </Menu.Item>
               <Menu.Item>

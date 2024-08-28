@@ -5,6 +5,19 @@ export interface LoginCredentials {
   password: string;
 }
 
+export interface RegisterCredentials extends LoginCredentials {
+  username: string;
+  password: string;
+  customerName: string;
+  dateOfBirth: string;
+  gender: string;
+  email: string;
+  phone: string;
+  createdBy: string;
+  isActive: boolean;
+  role: string;
+}
+
 export interface ILogin {
   token: string;
   user: IUser;

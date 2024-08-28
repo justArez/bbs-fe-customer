@@ -1,5 +1,6 @@
 import config from "@/config";
-import axios, { AxiosRequestConfig } from "axios";
+import { useAuthStore } from "@/store/authStore";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 
 const httpRequest = axios.create({
   baseURL: config.API.API_URL,
@@ -12,8 +13,27 @@ export const sleep = (ms = 100000): Promise<void> => {
 httpRequest.interceptors.request.use(async (value) => {
   const storage = localStorage.getItem("user");
   const user = storage ? JSON.parse(storage) : null;
-  value.headers["Authorization"] = `Bearer ${user.token ?? ""}`;
+  value.headers["token"] = user.token ?? "";
   return value;
+});
+
+httpRequest.interceptors.response.use(undefined, async (error) => {
+  if (error.response?.status === 403) {
+    useAuthStore.getState().setAccountType(null);
+    return Promise.reject(error);
+  }
+  if (error instanceof Error && !(error instanceof AxiosError)) {
+    return Promise.reject({ error: error.message });
+  }
+
+  if (error instanceof AxiosError && error.response) {
+    if (error.response.status === 401) {
+      useAuthStore.getState().reset();
+    }
+    return Promise.reject(error.response.data);
+  } else {
+    throw new Error("Network Error");
+  }
 });
 
 export const get = async (path: string, options?: AxiosRequestConfig<object>) => {

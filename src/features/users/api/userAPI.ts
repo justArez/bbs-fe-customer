@@ -1,7 +1,7 @@
 import * as httpAuth from "@/libs/axios-auth";
 
 import { IUser } from "../types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const getUser = async (): Promise<IUser> => {
   try {
@@ -10,6 +10,23 @@ export const getUser = async (): Promise<IUser> => {
   } catch (e: any) {
     throw new Error(e);
   }
+};
+
+export const getBookingHistory = async (customerId: number): Promise<any> => {
+  try {
+    const res = await httpAuth.get(`/activity/${customerId}`);
+    return res.data;
+  } catch (e: any) {
+    throw new Error(e);
+  }
+};
+
+export const useGetBookingHistory = (customerId: number | null) => {
+  return useQuery({
+    queryKey: ["bookingHistory", customerId],
+    queryFn: () => getBookingHistory(customerId!),
+    enabled: () => customerId !== null,
+  });
 };
 
 export const useGetUserMutation = (

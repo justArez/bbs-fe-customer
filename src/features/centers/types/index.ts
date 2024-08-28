@@ -92,3 +92,20 @@ export interface ICourt {
   pricePerSlot: number;
   image?: string;
 }
+
+export interface IBookingReq {
+  amount: number;
+  bookingDate: string;
+  courtCenterId: number;
+  courtId: number;
+  createdBy: string;
+  customerId: number;
+  customerName: string;
+  timeslotIds: number[];
+}
+
+export interface IBookingRes {
+  amount: number;
+  bookingId: number;
+  message: string;
+}
