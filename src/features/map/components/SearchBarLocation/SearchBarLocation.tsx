@@ -66,7 +66,7 @@ export default function SearchBarLocation() {
             <ul className="font-medium flex flex-col gap-y-1">
               {isFetching && (
                 <li className="flex items-center justify-center">
-                  <p className="w-1/2">Đang Feching</p>
+                  <p className="w-1/2">Đang tìm kiếm...</p>
                 </li>
               )}
               {!isFetching && data?.predictions.length === 0 && (

@@ -1,4 +1,4 @@
-const isDev = import.meta.env.DEV;
+const isDev = import.meta.env.PROD;
 const API_URL = !isDev ? import.meta.env.VITE_API_URL : "api";
 const API_PLACE_URL = !isDev ? import.meta.env.VITE_API_PLACE_URL : "api";
 // const API_URL = import.meta.env.VITE_API_URL;

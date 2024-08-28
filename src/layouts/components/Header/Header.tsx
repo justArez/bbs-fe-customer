@@ -1,14 +1,16 @@
 import Login from "@/features/auth/components";
 import { useAuthStore } from "@/store/authStore";
-import { ActionIcon, Button } from "@mantine/core";
+import { ActionIcon, Button, Menu, MenuTarget } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useCallback } from "react";
 import { IoMenu } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { LuUsers } from "react-icons/lu";
+import { FaRegUser } from "react-icons/fa";
 
 export default function Header() {
   const { accountType, reset } = useAuthStore();
+  // const [opened, setOpened] = useState(false);
 
   const onClickLogin = useCallback(() => {
     modals.open({
@@ -26,18 +28,40 @@ export default function Header() {
           </Link>
         </div>
         <div className="flex gap-x-4">
-          {!accountType ? (
-            <Button leftSection={<LuUsers />} onClick={() => onClickLogin()}>
-              Đăng nhập
-            </Button>
-          ) : (
-            <Button variant="light" color="red.6" onClick={() => reset()}>
-              Đăng xuất
-            </Button>
-          )}
-          <ActionIcon variant="light" size="lg">
-            <IoMenu size={24} />
-          </ActionIcon>
+          <Button
+            leftSection={<LuUsers />}
+            onClick={() => (!accountType ? onClickLogin() : reset())}
+          >
+            {!accountType ? "Đăng nhập" : "Đăng xuất"}
+          </Button>
+
+          <Menu>
+            <MenuTarget>
+              <ActionIcon size="lg">
+                <IoMenu size={24} />
+              </ActionIcon>
+            </MenuTarget>
+            <Menu.Dropdown>
+              <Menu.Item>
+                <div className="flex items-center gap-x-3">
+                  <FaRegUser size={20} />
+                  <Link to="/manage/profile">Thông tin cá nhân</Link>
+                </div>
+              </Menu.Item>
+              <Menu.Item>
+                <div className="flex items-center gap-x-3">
+                  <FaRegUser size={20} />
+                  <Link to="/manage/booking">Quản lý booking</Link>
+                </div>
+              </Menu.Item>
+              <Menu.Item>
+                <div className="flex items-center gap-x-3">
+                  <FaRegUser size={20} />
+                  <Link to="/manage/payment">Quản lý thanh toán</Link>
+                </div>
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
         </div>
       </div>
     </header>

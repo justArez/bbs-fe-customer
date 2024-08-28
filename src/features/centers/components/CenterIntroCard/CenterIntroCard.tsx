@@ -6,7 +6,7 @@ import ListItemOfCenter from "@/features/centers/components/ListItemOfCenter";
 import { convertSlugURL, convertWorkingTimeToDisplayFormat } from "@/libs/helper";
 import { Rating } from "@mantine/core";
 import { Link, useNavigate } from "react-router-dom";
-import StudioCardImage from "@/assets/img/studio-card.jpg";
+import CourtImage from "@/assets/img/court-image.jpg";
 import { toast } from "react-hot-toast";
 import { useAuthStore } from "@/store/authStore";
 import { modals } from "@mantine/modals";
@@ -23,9 +23,9 @@ export default function CenterIntroCard({ center }: { center: Partial<ICourtCent
         <ImageSlider
           className="cursor-pointer rounded-xl"
           onClick={() =>
-            navigator(`/studio/${convertSlugURL(center.courtCenterName!)}/${center.id}`)
+            navigator(`/center/${convertSlugURL(center.courtCenterName!)}/${center.id}`)
           }
-          src={center.logo?.includes("http") ? center.logo : StudioCardImage}
+          src={center.logo?.includes("http") ? center.logo : CourtImage}
           alt=""
         />
         <div className="flex flex-row gap-x-3  gap-y-3 sm:flex-col">
@@ -37,11 +37,11 @@ export default function CenterIntroCard({ center }: { center: Partial<ICourtCent
                 toast.error("Vui lòng đăng nhập trước để đặt lịch");
               } else {
                 if (!center) {
-                  toast.error("Vui lòng chọn studio trước");
+                  toast.error("Vui lòng chọn center trước");
                 } else {
                   modals.open({
-                    title: <h1 className="font-semibold text-lg">Đặt sân ngay</h1>,
-                    size: "lg",
+                    title: <p className="font-semibold text-lg">Đặt sân ngay</p>,
+                    size: "xl",
                     children: <BookingModal center={center} />,
                   });
                 }
@@ -49,8 +49,10 @@ export default function CenterIntroCard({ center }: { center: Partial<ICourtCent
             }}
             className="py-[10px] flex-1"
           >
-            <CalendarIcon />
-            <p className="text-sm sm:text-base">Đặt sân</p>
+            <div className="flex justify-center items-center gap-x-3">
+              <CalendarIcon />
+              <p className="text-sm sm:text-base">Đặt sân</p>
+            </div>
           </Button>
         </div>
       </div>
@@ -58,7 +60,7 @@ export default function CenterIntroCard({ center }: { center: Partial<ICourtCent
         <div className="flex flex-col gap-y-2 w-full font-medium  text-sm sm:w-[calc(100%-146px)] sm:gap-y-3">
           <div className="w-full flex justify-between">
             <Link
-              to={`/studio/${convertSlugURL(center.courtCenterName!)}/${center.id}`}
+              to={`/center/${convertSlugURL(center.courtCenterName!)}/${center.id}`}
               className="text-base font-semibold sm:font-bold sm:text-xl max-w-fit"
             >
               {center.courtCenterName}

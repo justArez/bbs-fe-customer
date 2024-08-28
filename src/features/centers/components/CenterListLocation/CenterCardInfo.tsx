@@ -1,5 +1,5 @@
-import { CloseIcon, MapPinIcon, StarIcon } from "@/assets/icons";
-import StudioCardImage from "@/assets/img/studio-card.jpg";
+import { MapPinIcon } from "@/assets/icons";
+import CourtImage from "@/assets/img/court-image.jpg";
 import { ICourtCenter } from "@/features/centers/types";
 import { convertSlugURL } from "@/libs/helper";
 import { Carousel, CarouselSlide } from "@mantine/carousel";
@@ -11,7 +11,6 @@ import { v4 as uuidv4 } from "uuid";
 export default function CenterCardInfo({
   center,
   isSlide = false,
-  onClickCloseIcon,
 }: {
   center: ICourtCenter;
   isSlide?: boolean;
@@ -21,19 +20,21 @@ export default function CenterCardInfo({
   const listImage = useMemo(() => {
     const list = center.listMedia;
     const listImage = list.map(() => {
-      return { url: StudioCardImage, id: uuidv4() };
+      return { url: CourtImage, id: uuidv4() };
     });
     if (listImage?.length === 0)
       return [
         {
-          url: StudioCardImage,
+          url: CourtImage,
           id: uuidv4(),
         },
       ];
     return listImage;
   }, [center.listMedia]);
   return (
-    <div className={twMerge("group w-full hover:bg-green-100 transition-colors rounded-2xl shadow-lg")}>
+    <div
+      className={twMerge("group w-full hover:bg-green-100 transition-colors rounded-2xl shadow-lg")}
+    >
       <div
         onClick={() => navigate(`/center/${convertSlugURL(center.courtCenterName)}/${center.id}`)}
         className={twMerge("p-3 flex flex-col w-full gap-y-2 font-medium text-sm cursor-pointer")}
@@ -54,7 +55,7 @@ export default function CenterCardInfo({
             <CarouselSlide key={item.id}>
               <Image
                 src={item.url}
-                alt="studio"
+                alt="center"
                 className="w-full h-[200px] object-cover rounded-2xl "
               />
             </CarouselSlide>
@@ -63,11 +64,7 @@ export default function CenterCardInfo({
 
         <div className={twMerge("flex flex-col gap-y-2 w-full max-w-full", isSlide && "p-3 pt-0")}>
           <div className="flex items-center justify-between font-semibold text-[15px] w-full max-w-full'">
-            <p className="name-studio max-w-[65%]">{center.courtCenterName}</p>
-            <div className="flex items-center">
-              <StarIcon />
-              <p className="ml-1 font-medium text-sm">{"0.00"}</p>
-            </div>
+            <p className="max-w-[65%]">{center.courtCenterName}</p>
           </div>
           <p className="line-clamp-2">{center.description || "test nhé"}</p>
           <div className="flex items-center">

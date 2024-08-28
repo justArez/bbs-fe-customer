@@ -1,5 +1,11 @@
 import * as httpRequest from "@/libs/axios";
-import { ICenterPagination, ICourtCenter, IFilter } from "../types";
+import {
+  ICenterPagination,
+  ICourtCenter,
+  ICourtTimeSLotAvailable,
+  ICourtTimeSLotFilter,
+  IFilter,
+} from "../types";
 import { useQuery } from "@tanstack/react-query";
 
 export const getCenter = async (id: string): Promise<ICourtCenter | null> => {
@@ -23,6 +29,17 @@ const getListCenter = async (filter: IFilter): Promise<ICenterPagination> => {
   }
 };
 
+const getAvaliableCourtAndTimeSLot = async (
+  filter: ICourtTimeSLotFilter,
+): Promise<ICourtTimeSLotAvailable> => {
+  try {
+    const response = await httpRequest.post("/court/available", filter);
+    return response;
+  } catch (e: any) {
+    throw new Error(e);
+  }
+};
+
 export const useGetListCenter = (filter: IFilter) => {
   return useQuery({
     queryKey: ["centers", filter],
@@ -38,5 +55,14 @@ export const useGetCenter = (id: string) => {
     queryFn: () => getCenter(id),
     staleTime: Infinity,
     enabled: () => id !== "",
+  });
+};
+
+export const useGetAvaliableCourtAndTimeSLot = (filter: ICourtTimeSLotFilter) => {
+  return useQuery({
+    queryKey: ["court/available", filter],
+    queryFn: () => getAvaliableCourtAndTimeSLot(filter),
+    staleTime: Infinity,
+    enabled: () => JSON.stringify(filter) !== "{}",
   });
 };

@@ -54,7 +54,7 @@ export default function CenterListLocation() {
         {placeDetail?.address_components && data && (
           <>
             <h1 className="font-medium text-base">
-              Có {data.total} studio tại {convertAdressComponents(placeDetail.address_components)}
+              Có {data.total} center tại {convertAdressComponents(placeDetail.address_components)}
             </h1>
           </>
         )}

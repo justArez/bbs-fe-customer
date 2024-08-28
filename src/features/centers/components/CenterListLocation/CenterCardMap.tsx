@@ -1,5 +1,5 @@
-import { CloseIcon, MapPinIcon, StarIcon } from "@/assets/icons";
-import StudioCardImage from "@/assets/img/studio-card.jpg";
+import { CloseIcon, MapPinIcon } from "@/assets/icons";
+import CourtImage from "@/assets/img/court-image.jpg";
 import { ICourtCenter } from "@/features/centers/types";
 import { convertSlugURL } from "@/libs/helper";
 import { Carousel, CarouselSlide } from "@mantine/carousel";
@@ -20,12 +20,12 @@ export default function CenterCardMap({
   const listImage = useMemo(() => {
     const list = center.listMedia;
     const listImage = list.map(() => {
-      return { url: StudioCardImage, id: uuidv4() };
+      return { url: CourtImage, id: uuidv4() };
     });
     if (listImage?.length === 0)
       return [
         {
-          url: StudioCardImage,
+          url: CourtImage,
           id: uuidv4(),
         },
       ];
@@ -41,7 +41,7 @@ export default function CenterCardMap({
       <div
         ref={(ref) => ref && google.maps.OverlayView.preventMapHitsFrom(ref as Element)}
         onClick={() => {
-          navigate(`/studio/${convertSlugURL(center.courtCenterName)}/${center.id}`);
+          navigate(`/center/${convertSlugURL(center.courtCenterName)}/${center.id}`);
         }}
         className={twMerge(
           "flex flex-col w-full gap-y-2 font-medium text-sm cursor-pointer p-0 relative",
@@ -73,7 +73,7 @@ export default function CenterCardMap({
             <CarouselSlide key={item.id}>
               <Image
                 src={item.url}
-                alt="studio"
+                alt="center"
                 className="rounded-2xl rounded-es-none rounded-ee-none"
               />
             </CarouselSlide>
@@ -82,11 +82,7 @@ export default function CenterCardMap({
 
         <div className={twMerge("flex flex-col gap-y-2 p-3 pt-0")}>
           <div className="flex items-center justify-between font-semibold text-[15px]">
-            <p className="name-studio truncate max-w-[65%]">{center.courtCenterName}</p>
-            <div className="flex items-center">
-              <StarIcon />
-              <p className="ml-1 font-medium text-sm">{"0.00"}</p>
-            </div>
+            <p className="truncate max-w-[65%]">{center.courtCenterName}</p>
           </div>
           <p className="line-clamp-2">{center.description || "Trống"}</p>
           <div className="flex items-center">

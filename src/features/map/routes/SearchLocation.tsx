@@ -1,4 +1,4 @@
-import StudioListLocation from "@/features/centers/components/CenterListLocation";
+import CenterListLocation from "@/features/centers/components/CenterListLocation";
 import { useSearchLocationStore } from "@/store/componentStore";
 import { LoadingOverlay } from "@mantine/core";
 import { Suspense, useEffect } from "react";
@@ -41,7 +41,7 @@ export default function SearchLocation() {
             )}
           >
             <Suspense fallback={<LoadingOverlay />}>
-              <StudioListLocation />
+              <CenterListLocation />
             </Suspense>
           </div>
           <div
@@ -55,16 +55,6 @@ export default function SearchLocation() {
             </Suspense>
           </div>
         </div>
-        {/* <div className="fixed z-[1000] top-[calc(100%-80px)] left-1/2 -translate-x-1/2 lgmax:hidden w-fit">
-          <Button
-            onClick={() => setOpenMap(!openMap)}
-            className="bg-black text-white border-4 border-solid border-stroke-gray"
-          >
-            <p className="text-sm font-semibold truncate">
-              {openMap ? "Mở danh sách studio" : "Mở bản đồ"}
-            </p>
-          </Button>
-        </div> */}
       </div>
     </>
   );

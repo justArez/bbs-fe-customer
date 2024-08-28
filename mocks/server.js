@@ -2,6 +2,7 @@ import { createServer, Model, Response } from "miragejs";
 import users from "./fixtures/users";
 import auths from "./fixtures/auths";
 import centers from "./fixtures/centers";
+import courts from "./fixtures/courts";
 import config from "@/config";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -25,12 +26,14 @@ export function makeServer({ environment = "test" } = {}) {
       user: Model.extend(),
       auth: Model.extend(),
       center: Model.extend(),
+      court: Model.extend(),
     },
 
     fixtures: {
       users,
       auths,
       centers,
+      courts,
     },
 
     seeds(server) {
@@ -49,7 +52,7 @@ export function makeServer({ environment = "test" } = {}) {
         });
         if (auth) {
           return {
-            token: `${Date.now() + 1 * 60 * 1000}-${auth.id}`,
+            token: `${Date.now() + 10 * 60 * 1000}-${auth.id}`,
           };
         }
         return new Response(401, {}, "Unauthorized");
@@ -85,9 +88,51 @@ export function makeServer({ environment = "test" } = {}) {
       });
 
       // GET /api/centers/:id
-      this.get("//center/:id", (schema, request) => {
+      this.get("/center/:id", (schema, request) => {
         const centerId = request.params.id;
         return schema.centers.find(centerId).attrs;
+      });
+
+      // GET /api/court/available
+      this.post("/court/available", (schema, request) => {
+        const { centerId, date, courtId, timeSlotIds } = JSON.parse(request.requestBody);
+
+        const listCourt = schema.courts.all().models.map((court) => court.attrs);
+        const listTimeSLot = [];
+
+        if (!courtId && (!timeSlotIds || timeSlotIds.length === 0)) {
+          listCourt.forEach((court) =>
+            court.timeslots.forEach(
+              (timeSlot) =>
+                !listTimeSLot.some(
+                  (timeSlotIn) =>
+                    timeSlotIn.start === timeSlot.start && timeSlotIn.end === timeSlot.end,
+                ) && listTimeSLot.push(timeSlot),
+            ),
+          );
+          return {
+            timeSlots: [...listTimeSLot],
+            courts: listCourt,
+          };
+        }
+        const listCourtFilter = listCourt.filter(
+          (court) => court.id === courtId || court.timeslots.some((id) => timeSlotIds.includes(id)),
+        );
+
+        listCourtFilter.forEach((court) =>
+          court.timeslots.forEach(
+            (timeSlot) =>
+              !listTimeSLot.some(
+                (timeSlotIn) =>
+                  timeSlotIn.start === timeSlot.start && timeSlotIn.end === timeSlot.end,
+              ) && listTimeSLot.push(timeSlot),
+          ),
+        );
+
+        return {
+          timeSlots: listTimeSLot,
+          courts: listCourtFilter,
+        };
       });
 
       // POST /api/centers

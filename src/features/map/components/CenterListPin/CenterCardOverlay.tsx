@@ -28,7 +28,7 @@ const CenterCardOverlay = ({
       {center && (
         <div
           className={twMerge(
-            "studio-overlay-view absolute bottom-0 translate-x-[calc(0%+37.8631px)] translate-y-[calc(50%+0px)] font-sans ",
+            "absolute bottom-0 translate-x-[calc(0%+37.8631px)] translate-y-[calc(50%+0px)] font-sans ",
             positionInfo,
           )}
         >

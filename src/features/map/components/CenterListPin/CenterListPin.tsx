@@ -1,5 +1,5 @@
 import { ICourtCenter } from "@/features/centers/types";
-import StudioPin from "./CenterPin";
+import CenterPin from "./CenterPin";
 import CenterCardOverlay from "./CenterCardOverlay";
 import { useGoogleMapStore, useCenterPinStore } from "@/store/componentStore";
 import { useEffect } from "react";
@@ -21,7 +21,7 @@ export default function CenterListPin({ centers }: { centers: ICourtCenter[] }) 
     <>
       {centerList.map((center) => {
         return (
-          <StudioPin
+          <CenterPin
             isSelect={center.id === centerPin?.id}
             key={center.id}
             center={center}

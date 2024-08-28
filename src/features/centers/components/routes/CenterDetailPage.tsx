@@ -1,23 +1,23 @@
-import { useLocation, useNavigate, useParams } from "react-router";
+// import { useLocation, useNavigate, useParams } from "react-router";
 import ImageListCenter from "../ImageListCenter";
-import { useGetCenter, useGetListCenter } from "../../api";
+import { useGetCenter } from "../../api";
 import { lazy, Suspense, useState } from "react";
 import CenterIntroCard from "../CenterIntroCard";
 import { LoadingOverlay } from "@mantine/core";
 
 const Editor = lazy(() => import("@/components/Editor"));
-import StudioCardImage from "@/assets/img/studio-card.jpg";
+import CenterImage from "@/assets/img/court-image.jpg";
 
-const listMedia = [StudioCardImage, StudioCardImage, StudioCardImage];
+const listMedia = [CenterImage, CenterImage, CenterImage];
 
 export default function CenterDetailPage() {
-  const { centerId } = useParams();
+  // const { centerId } = useParams();
   const { data, isLoading } = useGetCenter("1");
 
-  const location = useLocation();
-  const navigate = useNavigate();
+  // const location = useLocation();
+  // const navigate = useNavigate();
 
-  const [tab, setTab] = useState<{
+  const [tab] = useState<{
     detail: boolean;
     testimonial: boolean;
   }>({ detail: true, testimonial: false });

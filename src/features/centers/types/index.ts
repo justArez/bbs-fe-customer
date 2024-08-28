@@ -33,8 +33,37 @@ export interface IFilter {
     lng: number;
   };
   page?: number;
-  pageSize?: number;
+  size?: number;
   owners?: string[];
 }
 
-export interface ICenterPagination extends IPagination<ICourtCenter> { }
+export interface ICourtTimeSLotFilter {
+  timeSlotIds: number[];
+  courtId: number | null;
+  centerId?: number | null;
+  date: string | null;
+}
+
+export interface ICourtTimeSLotAvailable {
+  timeSlots: ICourtTimeSlot[];
+  courts: ICourt[];
+}
+
+export interface ICourtTimeSlot {
+  id: number;
+  start: string;
+  end: string;
+}
+
+export interface ICenterPagination extends IPagination<ICourtCenter> {}
+
+export interface ICourt {
+  id: number;
+  courtCenterId: number;
+  courtName: string;
+  updatedBy: string;
+  createdAt: number;
+  updatedAt: number;
+  pricePerSlot: number;
+  image?: string;
+}

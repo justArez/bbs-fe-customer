@@ -29,7 +29,7 @@ const CenterPin = ({
     >
       <m.div
         {...propsRoot}
-        className={twMerge("studio-pin-container origin-center", propsRoot?.className || "")}
+        className={twMerge("origin-center", propsRoot?.className || "")}
         animate={isSelect ? { scale: 1.1 } : { scale: 1 }}
         whileHover={{ scale: 1.1 }}
         transition={{ type: "spring", damping: 15, stiffness: 300 }}
@@ -47,7 +47,7 @@ const CenterPin = ({
               fill: "white",
             }}
           />
-          {"0.00"}
+          <span className="max-w-[4rem] truncate">{center.courtCenterName}</span>
         </button>
       </m.div>
     </OverlayViewF>

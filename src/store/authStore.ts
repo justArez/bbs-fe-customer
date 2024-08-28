@@ -6,7 +6,6 @@ interface IAuth {
     id: number;
     name: string;
   };
-  studioId?: string;
   user?: Partial<IUser>;
   status?: number;
 }

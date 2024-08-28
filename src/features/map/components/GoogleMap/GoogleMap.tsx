@@ -30,7 +30,7 @@ export default function GoogleMap({ visible }: { visible: boolean }) {
   const [isOpen, setIsOpen] = useState(false);
   const { map, setMap, setPlaceDetail } = useGoogleMapStore();
   const navigate = useNavigate();
-  const { filterData, setFilterData, isQuery, listCenter } = useFilterFormStore();
+  const { setFilterData, isQuery, listCenter } = useFilterFormStore();
   const { setCenterPin } = useCenterPinStore();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mapRef = useRef<any>(null);

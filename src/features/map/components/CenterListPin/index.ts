@@ -1,3 +1,3 @@
-import StudioListPin from "./CenterListPin";
+import CenterListPin from "./CenterListPin";
 
-export default StudioListPin;
+export default CenterListPin;
