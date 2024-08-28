@@ -33,8 +33,8 @@ export interface IFilter {
     lng: number;
   };
   page?: number;
-  size?: number;
+  pageSize?: number;
   owners?: string[];
 }
 
-export interface ICenterPagination extends IPagination<ICourtCenter> {}
+export interface ICenterPagination extends IPagination<ICourtCenter> { }

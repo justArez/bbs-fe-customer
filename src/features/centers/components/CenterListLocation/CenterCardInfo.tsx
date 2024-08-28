@@ -33,7 +33,7 @@ export default function CenterCardInfo({
     return listImage;
   }, [center.listMedia]);
   return (
-    <div className={twMerge("group w-full hover:bg-green-100 transition-colors rounded-2xl")}>
+    <div className={twMerge("group w-full hover:bg-green-100 transition-colors rounded-2xl shadow-lg")}>
       <div
         onClick={() => navigate(`/center/${convertSlugURL(center.courtCenterName)}/${center.id}`)}
         className={twMerge("p-3 flex flex-col w-full gap-y-2 font-medium text-sm cursor-pointer")}

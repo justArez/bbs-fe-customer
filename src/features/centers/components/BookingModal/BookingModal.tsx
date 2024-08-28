@@ -32,7 +32,7 @@ const shifts = [
 ];
 
 export default function BookingModal({ center }: { center: Partial<ICourtCenter> }) {
-  const [selectedShift, setSelectedShift] = useState<number | null>(null);
+  const [selectedShifts, setSelectedShifts] = useState<number[]>([]);
   return (
     <div className="flex flex-col gap-y-3">
       <p>Thông tin sân:</p>
@@ -49,9 +49,18 @@ export default function BookingModal({ center }: { center: Partial<ICourtCenter>
                   key={s.id}
                   className={twMerge(
                     "rounded-md px-4 py-2 text-black font-semibold text-base hover:bg-green-500 hover:text-white transition-colors",
-                    selectedShift === s.id ? "bg-green-500 text-white" : "bg-white shadow-sm",
+                    selectedShifts.some((shift) => shift === s.id) ? "bg-green-500 text-white" : "bg-white shadow-sm",
                   )}
-                  onClick={() => setSelectedShift(s.id)}
+                  onClick={() => {
+                    const shiftIndex = selectedShifts.findIndex((shift) => shift === s.id)
+                    if (shiftIndex < 0) {
+                      setSelectedShifts([...selectedShifts, s.id])
+                    } else {
+                      setSelectedShifts((selectedShifts) => {
+                        return selectedShifts.splice(shiftIndex, 1)
+                      })
+                    }
+                  }}
                 >
                   {dayjs(s.start).format("HH:mm")}
                 </button>
