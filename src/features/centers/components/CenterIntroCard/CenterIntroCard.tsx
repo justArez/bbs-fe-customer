@@ -97,9 +97,9 @@ export default function CenterIntroCard({ center }: { center: Partial<ICourtCent
           <p className="line-clamp-3">{"Be Unstoppable."}</p>
 
           <div className="w-full flex flex-col gap-2">
-            {center.workingTime && center.workingTime.length > 0 ? (
+            {center.openTime && center.closeTime ? (
               <ListItemOfCenter
-                listItem={convertWorkingTimeToDisplayFormat(center.workingTime)}
+                listItem={convertWorkingTimeToDisplayFormat(center.openTime, center.closeTime)}
                 name="Khung giờ hoạt động"
               />
             ) : (
@@ -108,6 +108,11 @@ export default function CenterIntroCard({ center }: { center: Partial<ICourtCent
                 <p className="text-sm font-medium italic">Center chưa có khung giờ hoạt động</p>
               </div>
             )}
+
+            {/* <div className="flex flex-col gap-y-2">
+              <h1 className="text-base sm:text-lg font-semibold">Khung giờ hoạt động</h1>
+              <p className="text-sm font-medium italic">Center chưa có khung giờ hoạt động</p>
+            </div> */}
           </div>
         </div>
       </div>

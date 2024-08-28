@@ -18,7 +18,7 @@ export default function AppRoute() {
         <Route path="/" element={<DefaultLayout />}>
           <Route index element={<HomePage />} />
           <Route path="/search-location" element={<SearchLocation />} />
-          <Route path="/center" element={<CenterDetailPage />}></Route>
+          <Route path="/center/:centerName/:centerId" element={<CenterDetailPage />}></Route>
           <Route element={<WithAuthencation />}>
             <Route path="manage" element={<ManageLayout />}></Route>
             <Route path="dashboard" element={<DashboardLayout />}>

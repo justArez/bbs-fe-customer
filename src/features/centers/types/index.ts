@@ -14,24 +14,34 @@ export interface ICourtCenter {
   updatedBy: string;
   logo: string;
   listMedia: string[];
-  workingTime: IWorkingTime[];
+  image: string;
+  openTime: string;
+  closeTime: string;
+  timeslots: ITimeSlot[];
 }
 
-export interface IWorkingTime {
-  dayOfWeek: number;
-  closeAt: string;
-  openAt: string;
+export interface ITimeSlot {
+  id: number;
+  startTime: string;
+  endTime: string;
+  createdBy: string;
+  createdAt: number;
+  updatedAt: number;
 }
 
 export interface IFilter {
-  viewPortNE?: {
-    lat: number;
-    lng: number;
-  };
-  viewPortSW?: {
-    lat: number;
-    lng: number;
-  };
+  neLat?: number;
+  neLng?: number;
+  swLat?: number;
+  swLng?: number;
+  // viewPortNE?: {
+  //   lat: number;
+  //   lng: number;
+  // };
+  // viewPortSW?: {
+  //   lat: number;
+  //   lng: number;
+  // };
   page?: number;
   size?: number;
   owners?: string[];

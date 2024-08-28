@@ -1,4 +1,4 @@
-// import { useLocation, useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import ImageListCenter from "../ImageListCenter";
 import { useGetCenter } from "../../api";
 import { lazy, Suspense, useState } from "react";
@@ -8,14 +8,11 @@ import { LoadingOverlay } from "@mantine/core";
 const Editor = lazy(() => import("@/components/Editor"));
 import CenterImage from "@/assets/img/court-image.jpg";
 
-const listMedia = [CenterImage, CenterImage, CenterImage];
+const listMedia = [CenterImage, CenterImage, CenterImage, CenterImage, CenterImage];
 
 export default function CenterDetailPage() {
-  // const { centerId } = useParams();
-  const { data, isLoading } = useGetCenter("1");
-
-  // const location = useLocation();
-  // const navigate = useNavigate();
+  const { centerId } = useParams();
+  const { data, isLoading } = useGetCenter(centerId || "");
 
   const [tab] = useState<{
     detail: boolean;

@@ -3,13 +3,13 @@ import * as httpAuth from "@/libs/axios-auth";
 import { ILogin, ISession, ISessionUser, LoginCredentials } from "../types";
 import { IUser, getUser } from "@/features/users";
 import { useMutation } from "@tanstack/react-query";
+import { jwtDecode } from "jwt-decode";
 
 const login = async (credentials: LoginCredentials): Promise<ILogin> => {
   try {
-    const resLogin: { token: string } = await httpRequest.post("/auth/sign-in", credentials);
-    localStorage.setItem("token", resLogin.token);
-    const resUser: IUser = await getUser();
-    return { token: resLogin.token, user: resUser };
+    const resLogin: string = await httpRequest.post("/auth/sign-in", credentials);
+    console.log(jwtDecode(resLogin));
+    return { token: resLogin, user: {} as any };
   } catch (e: any) {
     throw new Error(e);
   }

@@ -18,10 +18,11 @@ export default function CenterCardInfo({
 }) {
   const navigate = useNavigate();
   const listImage = useMemo(() => {
-    const list = center.listMedia;
-    const listImage = list.map(() => {
-      return { url: CourtImage, id: uuidv4() };
-    });
+    const listImage = Array(3)
+      .fill("")
+      .map(() => {
+        return { url: CourtImage, id: uuidv4() };
+      });
     if (listImage?.length === 0)
       return [
         {
@@ -30,7 +31,7 @@ export default function CenterCardInfo({
         },
       ];
     return listImage;
-  }, [center.listMedia]);
+  }, [center.id]);
   return (
     <div
       className={twMerge("group w-full hover:bg-green-100 transition-colors rounded-2xl shadow-lg")}

@@ -114,14 +114,10 @@ export default function GoogleMap({ visible }: { visible: boolean }) {
                 }
                 if (bounds) {
                   setFilterData({
-                    viewPortNE: {
-                      lat: bounds.getNorthEast().lat(),
-                      lng: bounds.getNorthEast().lng(),
-                    },
-                    viewPortSW: {
-                      lat: bounds.getSouthWest().lat(),
-                      lng: bounds.getSouthWest().lng(),
-                    },
+                    neLat: bounds.getNorthEast().lat(),
+                    neLng: bounds.getNorthEast().lng(),
+                    swLat: bounds.getSouthWest().lat(),
+                    swLng: bounds.getSouthWest().lng(),
                   });
                 }
                 if (!isFirstIdle) {

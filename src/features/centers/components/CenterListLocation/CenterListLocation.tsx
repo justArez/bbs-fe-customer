@@ -1,6 +1,6 @@
 import { convertAdressComponents } from "@/libs/helper/googleMapHelper";
 import { useFilterFormStore, useGoogleMapStore } from "@/store/componentStore";
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { useGetListCenter } from "@/features/centers";
 import { Pagination } from "@mantine/core";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -11,13 +11,15 @@ export default function CenterListLocation() {
   const { placeDetail } = useGoogleMapStore();
   const search = useSearchParams();
   const navigate = useNavigate();
-  const { filterData, setIsQuery, setListCenter, reset } = useFilterFormStore();
+  const [page, setPage] = useState(1);
+  const { filterData, setIsQuery, setListCenter, reset, listCenter } = useFilterFormStore();
   const { data, isFetching } = useGetListCenter(
-    filterData?.viewPortNE && filterData?.viewPortSW
+    filterData?.neLat && filterData?.neLng && filterData?.swLat && filterData?.swLng
       ? {
-          ...filterData,
-          page: (search[0].get("page") && Number(search[0].get("page"))) || 1,
-          size: 12,
+          neLat: filterData.neLat,
+          neLng: filterData.neLng,
+          swLat: filterData.swLat,
+          swLng: filterData.swLng,
         }
       : {},
   );
@@ -33,20 +35,21 @@ export default function CenterListLocation() {
   }, []);
 
   useEffect(() => {
-    if (data) setListCenter(data.data);
-    if (data && data.data.length === 0) {
+    if (data) {
+      const pagination = data.slice((page - 1) * 2, page * 2);
+      setListCenter(pagination);
       window.scrollTo(0, 0);
       const entries = search[0].entries();
       const searchParams = new URLSearchParams();
       for (const [key, value] of entries) {
         searchParams.append(key, value);
       }
-
+      setPage(1);
       searchParams.set("page", "1");
       navigate(`/search-location?${searchParams.toString()}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [data, filterData]);
 
   return (
     <>
@@ -54,7 +57,7 @@ export default function CenterListLocation() {
         {placeDetail?.address_components && data && (
           <>
             <h1 className="font-medium text-base">
-              Có {data.total} center tại {convertAdressComponents(placeDetail.address_components)}
+              Có {data.length} center tại {convertAdressComponents(placeDetail.address_components)}
             </h1>
           </>
         )}
@@ -62,28 +65,29 @@ export default function CenterListLocation() {
 
       <div className="grid sm:grid-cols-2 xl:grid-cols-3 item-center gap-y-5 gap-x-5 ">
         <Suspense fallback={<div></div>}>
-          {data && data.data.map((center) => <CenterCardInfo key={center.id} center={center} />)}
+          {listCenter &&
+            listCenter.map((center) => <CenterCardInfo key={center.id} center={center} />)}
         </Suspense>
       </div>
-      {data && data.data.length > 0 && (
+      {data && data.length > 0 && (
         <div className="flex justify-end">
           <Pagination
             className="ml-auto mt-5"
-            value={data.page}
+            value={page}
             onChange={(value) => {
-              if (value === data.page) return;
+              if (value === page) return;
               window.scrollTo(0, 0);
               const entries = search[0].entries();
               const searchParams = new URLSearchParams();
               for (const [key, value] of entries) {
                 searchParams.append(key, value);
               }
-
+              setPage(value);
               searchParams.set("page", value.toString());
               navigate(`/search-location?${searchParams.toString()}`);
             }}
             size={"md"}
-            total={(data.total && Math.ceil(data?.total / data.size)) || 0}
+            total={(data.length && Math.ceil(data.length / 2)) || 0}
           ></Pagination>
         </div>
       )}

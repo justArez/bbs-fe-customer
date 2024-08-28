@@ -1,23 +1,15 @@
-import { useGetUserMutation } from "@/features/users";
 import { useAuthStore } from "@/store/authStore";
+import { jwtDecode } from "jwt-decode";
 import { useEffect } from "react";
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { setAccountType, reset } = useAuthStore();
-
-  const getUserProfile = useGetUserMutation({
-    onError: () => {
-      reset();
-    },
-    onSuccess: (data) => {
-      setAccountType(data);
-    },
-  });
+  const { reset } = useAuthStore();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      getUserProfile.mutate({});
+      const data = jwtDecode(token);
+      console.log(data);
     } else {
       reset();
     }

@@ -1,11 +1,5 @@
 import * as httpRequest from "@/libs/axios";
-import {
-  ICenterPagination,
-  ICourtCenter,
-  ICourtTimeSLotAvailable,
-  ICourtTimeSLotFilter,
-  IFilter,
-} from "../types";
+import { ICourtCenter, ICourtTimeSLotAvailable, ICourtTimeSLotFilter, IFilter } from "../types";
 import { useQuery } from "@tanstack/react-query";
 
 export const getCenter = async (id: string): Promise<ICourtCenter | null> => {
@@ -20,9 +14,12 @@ export const getCenter = async (id: string): Promise<ICourtCenter | null> => {
   return null;
 };
 
-const getListCenter = async (filter: IFilter): Promise<ICenterPagination> => {
+const getListCenter = async (filter: IFilter): Promise<ICourtCenter[]> => {
   try {
-    const response: ICenterPagination = await httpRequest.post("/centers", filter);
+    const response: ICourtCenter[] = await httpRequest.get("/center/nearby", {
+      params: filter,
+    });
+
     return response;
   } catch (e: any) {
     throw new Error(e);
