@@ -1,12 +1,4 @@
-import {
-  TextInput,
-  PasswordInput,
-  Checkbox,
-  Anchor,
-  Title,
-  Group,
-  Button,
-} from "@mantine/core";
+import { TextInput, PasswordInput, Checkbox, Anchor, Title, Group, Button } from "@mantine/core";
 // import slider from '@/assets/img/sliderHome1.png';
 import { useLoginMutation, LoginCredentials } from "@/features/auth";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -16,7 +8,8 @@ export default function Login({ onLoginSuccess }: { onLoginSuccess: () => void }
   const { setAccountType } = useAuthStore();
   const loginMutation = useLoginMutation({
     onSuccess: (data) => {
-      setAccountType({ user: data.user });
+      localStorage.setItem("user", JSON.stringify(data));
+      setAccountType(data);
       onLoginSuccess();
     },
     onError: () => {

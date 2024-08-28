@@ -54,9 +54,24 @@ export interface ICourtTimeSLotFilter {
   date: string | null;
 }
 
+export interface IAvailableSlot {
+  id: number;
+  startTime: string;
+  endTime: string;
+  createdBy: string;
+  createdAt: number;
+  updatedAt: number;
+}
+
 export interface ICourtTimeSLotAvailable {
-  timeSlots: ICourtTimeSlot[];
-  courts: ICourt[];
+  availableSlots: IAvailableSlot[];
+  courtCenterId: number;
+  courtName: string;
+  createdAt: number;
+  createdBy: string;
+  id: number;
+  pricePerSlot: number;
+  updatedAt: number;
 }
 
 export interface ICourtTimeSlot {

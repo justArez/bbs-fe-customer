@@ -1,15 +1,13 @@
 import { useAuthStore } from "@/store/authStore";
-import { jwtDecode } from "jwt-decode";
 import { useEffect } from "react";
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { reset } = useAuthStore();
+  const { reset, setAccountType } = useAuthStore();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const data = jwtDecode(token);
-      console.log(data);
+    const user = localStorage.getItem("user");
+    if (user) {
+      setAccountType(JSON.parse(user));
     } else {
       reset();
     }

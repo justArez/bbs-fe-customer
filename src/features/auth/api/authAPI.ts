@@ -1,15 +1,16 @@
 import * as httpRequest from "@/libs/axios";
 import * as httpAuth from "@/libs/axios-auth";
-import { ILogin, ISession, ISessionUser, LoginCredentials } from "../types";
+import { ISession, ISessionUser, LoginCredentials } from "../types";
 import { IUser, getUser } from "@/features/users";
 import { useMutation } from "@tanstack/react-query";
-import { jwtDecode } from "jwt-decode";
 
-const login = async (credentials: LoginCredentials): Promise<ILogin> => {
+const login = async (credentials: LoginCredentials): Promise<IUser> => {
   try {
-    const resLogin: string = await httpRequest.post("/auth/sign-in", credentials);
-    console.log(jwtDecode(resLogin));
-    return { token: resLogin, user: {} as any };
+    const resLogin: IUser = await httpRequest.post("/auth/sign-in", credentials);
+    if (resLogin.isActive === false || resLogin.role !== "customer") {
+      throw new Error("Tài khoản của bạn không hợp lệ");
+    }
+    return resLogin;
   } catch (e: any) {
     throw new Error(e);
   }
@@ -29,8 +30,8 @@ const getSessionUser = async (): Promise<ISessionUser> => {
 export const useLoginMutation = (
   handleFn: {
     onError?: (error: unknown, variables: LoginCredentials, context: unknown) => void;
-    onSuccess?: (data: ILogin, variables: LoginCredentials, context: unknown) => void;
-    onMutate?: (variables: LoginCredentials) => Promise<ILogin>;
+    onSuccess?: (data: IUser, variables: LoginCredentials, context: unknown) => void;
+    onMutate?: (variables: LoginCredentials) => Promise<IUser>;
   },
   retry?: number,
 ) => {

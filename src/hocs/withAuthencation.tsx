@@ -7,7 +7,7 @@ const WithAuthencation = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const token = localStorage.getItem("token");
-  const roleId = accountType?.role?.id;
+  const roleId = accountType;
 
   useEffect(() => {
     if (!token || token.length === 0) {

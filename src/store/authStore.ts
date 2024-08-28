@@ -1,18 +1,9 @@
 import { IUser } from "@/features/users";
 import { create } from "zustand";
 
-interface IAuth {
-  role?: {
-    id: number;
-    name: string;
-  };
-  user?: Partial<IUser>;
-  status?: number;
-}
-
 interface AuthState {
-  accountType: IAuth | null;
-  setAccountType: (accountType: IAuth | null) => void;
+  accountType: IUser | null;
+  setAccountType: (accountType: IUser | null) => void;
   isLogout: boolean;
   setIsLogout: (isLogout: boolean) => void;
   isAuth: boolean;
@@ -33,6 +24,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   setIsAuth: (isAuth) => set({ isAuth }),
   reset: () => {
     set({ accountType: null, isAuth: false, isLogout: false });
-    localStorage.removeItem("token");
+    localStorage.removeItem("user");
   },
 }));

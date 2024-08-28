@@ -28,7 +28,7 @@ const getListCenter = async (filter: IFilter): Promise<ICourtCenter[]> => {
 
 const getAvaliableCourtAndTimeSLot = async (
   filter: ICourtTimeSLotFilter,
-): Promise<ICourtTimeSLotAvailable> => {
+): Promise<ICourtTimeSLotAvailable[]> => {
   try {
     const response = await httpRequest.post("/court/available", filter);
     return response;
