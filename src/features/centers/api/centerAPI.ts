@@ -1,7 +1,18 @@
 import * as httpRequest from "@/libs/axios";
-import * as httpAuth from "@/libs/axios-auth";
-import { ICenterPagination, IFilter } from "../types";
+import { ICenterPagination, ICourtCenter, IFilter } from "../types";
 import { useQuery } from "@tanstack/react-query";
+
+export const getCenter = async (id: string): Promise<ICourtCenter | null> => {
+  if (id !== "") {
+    try {
+      const response: ICourtCenter = await httpRequest.get(`/center/${id}`);
+      return response;
+    } catch (_error) {
+      console.log(_error);
+    }
+  }
+  return null;
+};
 
 const getListCenter = async (filter: IFilter): Promise<ICenterPagination> => {
   try {
@@ -14,8 +25,18 @@ const getListCenter = async (filter: IFilter): Promise<ICenterPagination> => {
 
 export const useGetListCenter = (filter: IFilter) => {
   return useQuery({
-    queryKey: ["studios", filter],
+    queryKey: ["centers", filter],
     queryFn: () => getListCenter(filter),
     staleTime: Infinity,
+    enabled: () => JSON.stringify(filter) !== "{}",
+  });
+};
+
+export const useGetCenter = (id: string) => {
+  return useQuery({
+    queryKey: ["center", id],
+    queryFn: () => getCenter(id),
+    staleTime: Infinity,
+    enabled: () => id !== "",
   });
 };

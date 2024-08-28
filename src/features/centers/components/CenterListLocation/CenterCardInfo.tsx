@@ -20,8 +20,8 @@ export default function CenterCardInfo({
   const navigate = useNavigate();
   const listImage = useMemo(() => {
     const list = center.listMedia;
-    const listImage = list.map((item) => {
-      return { url: item, id: uuidv4() };
+    const listImage = list.map(() => {
+      return { url: StudioCardImage, id: uuidv4() };
     });
     if (listImage?.length === 0)
       return [
@@ -33,38 +33,29 @@ export default function CenterCardInfo({
     return listImage;
   }, [center.listMedia]);
   return (
-    <div
-      className={twMerge(
-        "w-full bg-studio-card-gray-dark shadow-shadow-dropdown rounded-2xl ",
-        isSlide ? "bg-white text-black !shadow-[0px_5px_15px_rgba(0,0,0,0.35)]" : "",
-      )}
-    >
+    <div className={twMerge("group w-full hover:bg-green-100 transition-colors rounded-2xl")}>
       <div
-        onClick={() => navigate(`/studio/${convertSlugURL(center.courtCenterName)}/${center.id}`)}
-        className={twMerge(
-          "p-3 flex flex-col w-full gap-y-2 font-medium text-sm cursor-pointer",
-          isSlide && "p-0 relative",
-        )}
+        onClick={() => navigate(`/center/${convertSlugURL(center.courtCenterName)}/${center.id}`)}
+        className={twMerge("p-3 flex flex-col w-full gap-y-2 font-medium text-sm cursor-pointer")}
       >
-        {isSlide && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onClickCloseIcon && onClickCloseIcon(e);
-            }}
-            className="bg-white absolute top-3 left-3 z-10 h-6 w-6 flex items-center justify-center rounded-[50%]"
-          >
-            <CloseIcon styles={{ fill: "black", width: "16px", height: "16px" }} />
-          </button>
-        )}
-
-        <Carousel>
+        <Carousel
+          withIndicators
+          classNames={{
+            root: "overflow-hidden rounded-2xl ",
+            control: "data-[inactive]:opacity-0 data-[inactive]:cursor-default",
+            controls: "transition-opacity opacity-0 group-hover:opacity-100",
+            indicator: "w-3 h-1 transition-all data-[active]:w-5",
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           {listImage.map((item) => (
             <CarouselSlide key={item.id}>
               <Image
                 src={item.url}
                 alt="studio"
-                className="w-full h-[200px] object-cover rounded-2xl"
+                className="w-full h-[200px] object-cover rounded-2xl "
               />
             </CarouselSlide>
           ))}

@@ -1,6 +1,7 @@
 import { createServer, Model, Response } from "miragejs";
 import users from "./fixtures/users";
 import auths from "./fixtures/auths";
+import centers from "./fixtures/centers";
 import config from "@/config";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -23,11 +24,13 @@ export function makeServer({ environment = "test" } = {}) {
     models: {
       user: Model.extend(),
       auth: Model.extend(),
+      center: Model.extend(),
     },
 
     fixtures: {
       users,
       auths,
+      centers,
     },
 
     seeds(server) {
@@ -36,9 +39,6 @@ export function makeServer({ environment = "test" } = {}) {
 
     routes() {
       this.namespace = "/api";
-
-      this.passthrough(`${API_URL}/**`);
-      this.passthrough(`${API_PLACE_URL}/**`);
 
       // POST /api/auth/signin
       this.post("/auth/sign-in", (schema, request) => {
@@ -83,6 +83,56 @@ export function makeServer({ environment = "test" } = {}) {
         const res = await fetch(`${API_PLACE_URL}/details/json?${new URLSearchParams(params)}`);
         return res.json();
       });
+
+      // GET /api/centers/:id
+      this.get("//center/:id", (schema, request) => {
+        const centerId = request.params.id;
+        return schema.centers.find(centerId).attrs;
+      });
+
+      // POST /api/centers
+      this.post("/centers", (schema, request) => {
+        const body = JSON.parse(request.requestBody);
+        const page = body.page || 1;
+        const size = body.size || 0;
+
+        // find by lat and lng inside north-east and south-west bounds
+        const listCenter = schema.centers.all().models.map((center) => center.attrs);
+        if ((!body.viewPortSW || !body.viewPortSW) && !body.owners) {
+          return {
+            page,
+            size,
+            total: listCenter.length,
+            data: [],
+          };
+        }
+        let centers = listCenter;
+
+        if (body.owners) {
+          centers = centers.filter((center) => body.owners.includes(center.owner));
+        }
+
+        centers = centers.filter(
+          (center) =>
+            center.latitude >= body.viewPortSW.lat &&
+            center.latitude <= body.viewPortNE.lat &&
+            center.longitude >= body.viewPortSW.lng &&
+            center.longitude <= body.viewPortNE.lng,
+        );
+
+        const pageList = centers.slice((body.page - 1) * body.size, body.page * body.size);
+
+        return {
+          page: page,
+          size: size,
+          total: centers?.length ?? 0,
+          data: pageList ?? [],
+        };
+      });
+
+      this.passthrough(`${API_URL}/**`);
+      this.passthrough(`${API_PLACE_URL}/**`);
+      this.passthrough(`https://maps.googleapis.com/**`);
     },
   });
 

@@ -15,12 +15,12 @@ import { ArrowCloseIcon, ArrowOpenIcon } from "@/assets/icons";
 import { useNavigate } from "react-router-dom";
 import { encodeStringtoURI } from "@/libs/helper";
 import { Loader } from "@mantine/core";
-import StudioListPin from "../StudioListPin";
 import { twMerge } from "tailwind-merge";
+import CenterListPin from "../CenterListPin/CenterListPin";
 
 export default function GoogleMap({ visible }: { visible: boolean }) {
   const { isLoaded } = useJsApiLoader({
-    id: "4efdfc21c30d0be0",
+    // id: "4efdfc21c30d0be0",
     googleMapsApiKey: config.API.API_KEY,
   });
   const [isFirstIdle, setIsFirstIdle] = useState(false);
@@ -55,7 +55,7 @@ export default function GoogleMap({ visible }: { visible: boolean }) {
     <div
       id="google-map"
       className={twMerge(
-        "sticky top-[160px] h-[calc(100vh-160px)] w-full",
+        "sticky top-[64px] h-[calc(100vh-64px)] w-full",
         visible ? "visible" : "invisible lgmax:visible",
       )}
     >
@@ -102,7 +102,7 @@ export default function GoogleMap({ visible }: { visible: boolean }) {
                 setMap(map);
               }}
               onClick={() => {
-                setStudioPin(null);
+                setCenterPin(null);
               }}
               onTilesLoaded={() => {
                 setIsLoadFull(true);
@@ -114,8 +114,6 @@ export default function GoogleMap({ visible }: { visible: boolean }) {
                 }
                 if (bounds) {
                   setFilterData({
-                    categoryId: filterData?.categoryId,
-                    sort: filterData?.sort,
                     viewPortNE: {
                       lat: bounds.getNorthEast().lat(),
                       lng: bounds.getNorthEast().lng(),
@@ -136,11 +134,11 @@ export default function GoogleMap({ visible }: { visible: boolean }) {
                 gestureHandling: "greedy",
                 mapTypeControl: false,
                 streetViewControl: false,
-                mapId: "4efdfc21c30d0be0",
+                // mapId: "4efdfc21c30d0be0",
                 zoomControl: false,
               }}
             >
-              {listCenter && <StudioListPin studios={listStudio} />}
+              {listCenter && <CenterListPin centers={listCenter} />}
             </GoogleMapReact>
           </>
         )}

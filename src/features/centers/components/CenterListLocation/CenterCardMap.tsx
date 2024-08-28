@@ -1,11 +1,13 @@
 import { CloseIcon, MapPinIcon, StarIcon } from "@/assets/icons";
 import StudioCardImage from "@/assets/img/studio-card.jpg";
-import { ImageSlider } from "@/components/common/Image";
 import { ICourtCenter } from "@/features/centers/types";
 import { convertSlugURL } from "@/libs/helper";
+import { Carousel, CarouselSlide } from "@mantine/carousel";
+import { Image } from "@mantine/core";
+import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
-
+import { v4 as uuidv4 } from "uuid";
 export default function CenterCardMap({
   center,
   onClickCloseIcon,
@@ -14,6 +16,22 @@ export default function CenterCardMap({
   onClickCloseIcon?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }) {
   const navigate = useNavigate();
+
+  const listImage = useMemo(() => {
+    const list = center.listMedia;
+    const listImage = list.map(() => {
+      return { url: StudioCardImage, id: uuidv4() };
+    });
+    if (listImage?.length === 0)
+      return [
+        {
+          url: StudioCardImage,
+          id: uuidv4(),
+        },
+      ];
+    return listImage;
+  }, [center.listMedia]);
+
   return (
     <div
       className={twMerge(
@@ -38,10 +56,30 @@ export default function CenterCardMap({
         >
           <CloseIcon styles={{ fill: "black", width: "16px", height: "16px" }} />
         </button>
-        <ImageSlider
-          className="rounded-2xl rounded-es-none rounded-ee-none"
-          src={center.logo && center.logo !== "" ? center.logo : StudioCardImage}
-        />
+
+        <Carousel
+          withIndicators
+          classNames={{
+            root: "group overflow-hidden rounded-2xl rounded-es-none rounded-ee-none",
+            control: "data-[inactive]:opacity-0 data-[inactive]:cursor-default",
+            controls: "transition-opacity opacity-0 group-hover:opacity-100",
+            indicator: "w-3 h-1 transition-all data-[active]:w-5",
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          {listImage.map((item) => (
+            <CarouselSlide key={item.id}>
+              <Image
+                src={item.url}
+                alt="studio"
+                className="rounded-2xl rounded-es-none rounded-ee-none"
+              />
+            </CarouselSlide>
+          ))}
+        </Carousel>
+
         <div className={twMerge("flex flex-col gap-y-2 p-3 pt-0")}>
           <div className="flex items-center justify-between font-semibold text-[15px]">
             <p className="name-studio truncate max-w-[65%]">{center.courtCenterName}</p>

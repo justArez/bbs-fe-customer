@@ -1,4 +1,4 @@
-import StudioListLocation from "./StudioListLocation";
-import StudioCardInfo from "./CenterCardInfo";
-export default StudioListLocation;
-export { StudioCardInfo };
+import CenterListLocation from "./CenterListLocation";
+import CenterCardInfo from "./CenterCardInfo";
+export default CenterListLocation;
+export { CenterCardInfo };

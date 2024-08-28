@@ -1,6 +1,8 @@
 import { NotFound } from "@/components/Error";
 import ScrollToTop from "@/components/ScrollToTop";
+import { CenterDetailPage } from "@/features/centers/components/routes";
 import Dashboard from "@/features/dashboard/components/Dashboard";
+import SearchLocation from "@/features/map/routes/SearchLocation";
 import { HomePage } from "@/features/users";
 import WithAuthencation from "@/hocs/withAuthencation";
 import DashboardLayout from "@/layouts/DashboardLayout";
@@ -15,7 +17,8 @@ export default function AppRoute() {
       <Routes>
         <Route path="/" element={<DefaultLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="map" element={<HomePage />} />
+          <Route path="/search-location" element={<SearchLocation />} />
+          <Route path="/center" element={<CenterDetailPage />}></Route>
           <Route element={<WithAuthencation />}>
             <Route path="manage" element={<ManageLayout />}></Route>
             <Route path="dashboard" element={<DashboardLayout />}>

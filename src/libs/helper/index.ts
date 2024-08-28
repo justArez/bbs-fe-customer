@@ -1,3 +1,4 @@
+import { IWorkingTime } from "@/features/centers";
 import Cookies from "js-cookie";
 
 /* eslint-disable no-useless-escape */
@@ -73,4 +74,17 @@ export const numbertoPrice = (num: number): string => {
   const formattedStr = numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "đ";
 
   return formattedStr;
+};
+
+export const convertWorkingTimeToDisplayFormat = (listWorkingTime: IWorkingTime[]) => {
+  let listWorkingTimeDisplay = [];
+  const listDayOfWeeks = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
+  const workingTimeList = listWorkingTime.sort((a, b) => a.dayOfWeek - b.dayOfWeek);
+  listWorkingTimeDisplay = workingTimeList.map((workingTime) => {
+    const dayOfWeek = listDayOfWeeks[workingTime.dayOfWeek];
+    const startTime = convertTimeToDisplayFormat(workingTime.openAt);
+    const endTime = convertTimeToDisplayFormat(workingTime.closeAt);
+    return `${dayOfWeek} ${startTime} - ${endTime}`;
+  });
+  return listWorkingTimeDisplay;
 };

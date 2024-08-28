@@ -8,8 +8,8 @@ export interface ICourtCenter {
   createdBy: string;
   id: number;
   description: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   updatedAt: string;
   updatedBy: string;
   logo: string;
@@ -33,8 +33,8 @@ export interface IFilter {
     lng: number;
   };
   page?: number;
-  pageSize?: number;
-  owners: string[];
+  size?: number;
+  owners?: string[];
 }
 
 export interface ICenterPagination extends IPagination<ICourtCenter> {}
