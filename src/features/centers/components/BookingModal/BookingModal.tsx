@@ -99,7 +99,11 @@ export default function BookingModal({ center }: { center: Partial<ICourtCenter>
               data.map((court) => (
                 <CarouselSlide key={court.id}>
                   <Card
-                    onClick={() => setSelectedCourt(court.id)}
+                    onClick={() =>
+                      selectedCourt !== court.id
+                        ? setSelectedCourt(court.id)
+                        : setSelectedCourt(null)
+                    }
                     classNames={{
                       root: twMerge(
                         "hover:bg-gray-300 transition-colors cursor-pointer",

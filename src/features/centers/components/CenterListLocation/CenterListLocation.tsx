@@ -36,7 +36,7 @@ export default function CenterListLocation() {
 
   useEffect(() => {
     if (data) {
-      const pagination = data.slice((page - 1) * 2, page * 2);
+      const pagination = data.slice((page - 1) * 12, page * 12);
       setListCenter(pagination);
       window.scrollTo(0, 0);
       const entries = search[0].entries();
@@ -87,7 +87,7 @@ export default function CenterListLocation() {
               navigate(`/search-location?${searchParams.toString()}`);
             }}
             size={"md"}
-            total={(data.length && Math.ceil(data.length / 2)) || 0}
+            total={(data.length && Math.ceil(data.length / 12)) || 0}
           ></Pagination>
         </div>
       )}
